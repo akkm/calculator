@@ -4,13 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/text_style"
+        style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="こんにちは！！"/>
 
     <TextView
-        style="@style/big_text_style"
+        style="@style/TextStyle.Big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="こんばんは！！"/>
