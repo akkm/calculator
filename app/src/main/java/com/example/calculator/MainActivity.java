@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
 		// 小数点をおした時の動作
 		findViewById(R.id.dot).setOnClickListener(new OnClickListenerForDot());
 
-		// TODO: 演算子の関連付けをする
+		// 演算子の関連付けをする
+		findViewById(R.id.addition).setOnClickListener(new OnClickListenerForOperation(Operation.PLUS));
+		findViewById(R.id.subtraction).setOnClickListener(new OnClickListenerForOperation(Operation.SUBTRACTION));
+		findViewById(R.id.division).setOnClickListener(new OnClickListenerForOperation(Operation.DIVISION));
+		findViewById(R.id.multiplication).setOnClickListener(new OnClickListenerForOperation(Operation.MULTIPLICATION));
 
 		// TODO: クリアボタンの関連付けをする
 
@@ -151,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO: 演算子が押された時の動作を書く
+			displayInput.append(operation.getSymbol());
+			inputOperation = operation;
 		}
 	}
 
