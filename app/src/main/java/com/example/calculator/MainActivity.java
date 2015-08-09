@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
 		 */
 		@Override
 		public void onClick(View v) {
-			// TODO: 数字が押された時の動きをここに書く
+			String stringNumber = getStringNumber();
+			displayInput.append(stringNumber);
 		}
 	}
 
