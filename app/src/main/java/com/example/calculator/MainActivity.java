@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
 		findViewById(R.id.division).setOnClickListener(new OnClickListenerForOperation(Operation.DIVISION));
 		findViewById(R.id.multiplication).setOnClickListener(new OnClickListenerForOperation(Operation.MULTIPLICATION));
 
-		// TODO: クリアボタンの関連付けをする
+		// クリアボタンの関連付けをする
+		findViewById(R.id.clear).setOnClickListener(new OnClickListenerForClear());
 
 		// TODO: =の関連付けをする
 	}
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO: クリアボタンが押された時の動作を書く
+			displayInput.setText("");
 		}
 	}
 
