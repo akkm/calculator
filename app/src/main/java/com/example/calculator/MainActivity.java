@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 		// クリアボタンの関連付けをする
 		findViewById(R.id.clear).setOnClickListener(new OnClickListenerForClear());
 
-		// TODO: =の関連付けをする
+		// =の関連付けをする
+		findViewById(R.id.equal).setOnClickListener(new OnClickListenerForEqual());
 	}
 
 
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 			String stringNumber = getStringNumber();
+			if (inputOperation == Operation.NONE) {
+				firstNumber = firstNumber + stringNumber;
+			} else {
+				secondNumber = secondNumber + stringNumber;
+			}
 			displayInput.append(stringNumber);
 		}
 	}
@@ -166,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 			displayInput.setText("");
+			firstNumber = "";
+			secondNumber = "";
+			inputOperation = Operation.NONE;
 		}
 	}
 
@@ -187,18 +196,25 @@ public class MainActivity extends AppCompatActivity {
 			Double result = null;
 			switch (inputOperation) {
 				case PLUS:
+					result = convertNumber(firstNumber) + convertNumber(secondNumber);
 					break;
 				case SUBTRACTION:
+					result = convertNumber(firstNumber) - convertNumber(secondNumber);
 					break;
 				case MULTIPLICATION:
+					result = convertNumber(firstNumber) * convertNumber(secondNumber);
 					break;
 				case DIVISION:
+					result = convertNumber(firstNumber) / convertNumber(secondNumber);
 					break;
 				default:
 					break;
 			}
 			if (result != null) {
 				displayResult.setText("=" + String.valueOf(result));
+				firstNumber = "";
+				secondNumber = "";
+				inputOperation = Operation.NONE;
 			}
 		}
 	}
