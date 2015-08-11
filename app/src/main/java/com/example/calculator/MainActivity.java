@@ -8,44 +8,18 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-	/**
-	 * 演算子がどれなのかの定義をしておく今回はあまり気にしなくてOK
-	 */
-	private enum Operation {
-		PLUS("+"),
-		SUBTRACTION("-"),
-		MULTIPLICATION("×"),
-		DIVISION("÷"),
-		NONE("");
-		private final String symbol;
-
-		Operation(String symbol) {
-			this.symbol = symbol;
-		}
-
-		public String getSymbol() {
-			return symbol;
-		}
-	}
-
 	/**
 	 * 入力した値を表示するためのView
 	 */
 	private TextView displayInput;
 	private TextView displayResult;
-	private String firstNumber;
-	private String secondNumber;
-	private Operation inputOperation = Operation.NONE;
+	private Calculator calculator = new Calculator();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		// 準備を色々する
-		firstNumber = "";
-		secondNumber = "";
-		inputOperation = Operation.NONE;
 		displayInput = (TextView) findViewById(R.id.display_input);
 		displayResult = (TextView) findViewById(R.id.display_result);
 
@@ -64,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
 		findViewById(R.id.dot).setOnClickListener(new OnClickListenerForDot());
 
 		// 演算子の関連付けをする
-		findViewById(R.id.addition).setOnClickListener(new OnClickListenerForOperation(Operation.PLUS));
-		findViewById(R.id.subtraction).setOnClickListener(new OnClickListenerForOperation(Operation.SUBTRACTION));
-		findViewById(R.id.division).setOnClickListener(new OnClickListenerForOperation(Operation.DIVISION));
-		findViewById(R.id.multiplication).setOnClickListener(new OnClickListenerForOperation(Operation.MULTIPLICATION));
+		findViewById(R.id.addition).setOnClickListener(new OnClickListenerForOperation(Calculator.Operation.PLUS));
+		findViewById(R.id.subtraction).setOnClickListener(new OnClickListenerForOperation(Calculator.Operation.SUBTRACTION));
+		findViewById(R.id.division).setOnClickListener(new OnClickListenerForOperation(Calculator.Operation.DIVISION));
+		findViewById(R.id.multiplication).setOnClickListener(new OnClickListenerForOperation(Calculator.Operation.MULTIPLICATION));
 
 		// クリアボタンの関連付けをする
 		findViewById(R.id.clear).setOnClickListener(new OnClickListenerForClear());
@@ -124,11 +98,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 			String stringNumber = getStringNumber();
-			if (inputOperation == Operation.NONE) {
-				firstNumber = firstNumber + stringNumber;
-			} else {
-				secondNumber = secondNumber + stringNumber;
-			}
+			calculator.setValue(number);
 			displayInput.append(stringNumber);
 		}
 	}
@@ -154,16 +124,16 @@ public class MainActivity extends AppCompatActivity {
 		/**
 		 * どの演算子なのかを判別するためのもの
 		 */
-		private final Operation operation;
+		private final Calculator.Operation operation;
 
-		public OnClickListenerForOperation(Operation operation) {
+		public OnClickListenerForOperation(Calculator.Operation operation) {
 			this.operation = operation;
 		}
 
 		@Override
 		public void onClick(View v) {
 			displayInput.append(operation.getSymbol());
-			inputOperation = operation;
+			calculator.setOperation(operation);
 		}
 	}
 
@@ -172,9 +142,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 			displayInput.setText("");
-			firstNumber = "";
-			secondNumber = "";
-			inputOperation = Operation.NONE;
+			calculator.clear();
 		}
 	}
 
@@ -193,29 +161,9 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO: 計算結果を表示するようにする
-			Double result = null;
-			switch (inputOperation) {
-				case PLUS:
-					result = convertNumber(firstNumber) + convertNumber(secondNumber);
-					break;
-				case SUBTRACTION:
-					result = convertNumber(firstNumber) - convertNumber(secondNumber);
-					break;
-				case MULTIPLICATION:
-					result = convertNumber(firstNumber) * convertNumber(secondNumber);
-					break;
-				case DIVISION:
-					result = convertNumber(firstNumber) / convertNumber(secondNumber);
-					break;
-				default:
-					break;
-			}
-			if (result != null) {
-				displayResult.setText("=" + String.valueOf(result));
-				firstNumber = "";
-				secondNumber = "";
-				inputOperation = Operation.NONE;
-			}
+			Double result = (double) calculator.calculate();
+			displayResult.setText("=" + String.valueOf(result));
+			calculator.clear();
 		}
 	}
 
