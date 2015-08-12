@@ -6,7 +6,7 @@ package com.example.calculator;
 public class Calculator {
 	private int firstValue = 0;
 	private int secondValue = 0;
-	private Operation operation;
+	private Operation operation = Operation.NONE;
 
 	// 数字をセットする
 	public void setValue(int value) {
