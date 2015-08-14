@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import java.security.InvalidParameterException;
+
 /**
  * @author KeishinYokomaku
  */
@@ -10,6 +12,10 @@ public class Calculator {
 
     // 数字をセットする
     public void setValue(int value) {
+        if (value < 0 || value > 10) {
+            throw new InvalidParameterException();
+        }
+
         if (operation == Operation.NONE) {
             firstValue = firstValue * 10 + value; // 連続して数字を入力した時は桁をずらして足す
         } else {
