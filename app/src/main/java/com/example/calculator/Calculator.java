@@ -22,6 +22,18 @@ public class Calculator {
         this.operation = operation;
     }
 
+    public int getFirstValue() {
+        return firstValue;
+    }
+
+    public int getSecondValue() {
+        return secondValue;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
     // 計算する
     public int calculate() {
         switch (operation) {
